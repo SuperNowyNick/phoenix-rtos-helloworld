@@ -1,13 +1,13 @@
 # phoenix-rtos-project
 
-Sample project using Phoenix-RTOS. Built and tested on minimal clean installation of Ubuntu 18.04.3 LTS for desktops.
+Sample project using Phoenix-RTOS with helloword app. Built and tested on installation of Fedora 26 with little fixes applied on original Phoenix-RTOS version (if you wish to build on Fedora please use thewith little fixes applied on original Phoen 'fedora' branch).
 
 ### Building
 
 1. Clone the repository and *cd* into it:
 ````bash
-git clone https://github.com/phoenix-rtos/phoenix-rtos-project.git
-cd phoenix-rtos-project/
+git clone https://github.com/SuperNowyNick/phoenix-rtos-helloworld/phoenix-rtos-project.git
+cd phoenix-rtos-helloworld/
 ````
 2. Initialize and update git submodules:
 ```bash
@@ -18,23 +18,18 @@ git submodule update --init --recursive
 ````bash
    - Build the toolchain:
 	(cd phoenix-rtos-build/toolchain/ && ./build-toolchain.sh i386-pc-phoenix ~/toolchains/i386-pc-phoenix)
-	(cd phoenix-rtos-build/toolchain/ && ./build-toolchain.sh arm-phoenix ~/toolchains/arm-phoenix)
-	(cd phoenix-rtos-build/toolchain/ && ./build-toolchain.sh riscv64-phoenix-elf ~/toolchains/riscv64-phoenix-elf)
 
    - Add toolchain binaries to PATH variable:
 	export PATH=$PATH:~/toolchains/i386-pc-phoenix/i386-pc-phoenix/bin/
-	export PATH=$PATH:~/toolchains/arm-phoenix/arm-phoenix/bin/
-	export PATH=$PATH:~/toolchains/riscv64-phoenix-elf/riscv64-phoenix-elf/bin/
 ````
 4. Build the project:
-````
-   - Edit build.project file and set TARGET variable to define the target architecture
-
    - Run build.sh script:
-	./phoenix-rtos-build/build.sh clean all
+	./build.sh
+
 ````
 After the build successfully completes, kernel and disk images will be created and placed in the *_boot* directory.
 
 ### Starting the image
 
-To start the created image on target architecture please see [Documentation/Quickstart](../phoenix-rtos-doc/quickstart/) quide.
+Run script in the main folder:
+        ./run.sh
