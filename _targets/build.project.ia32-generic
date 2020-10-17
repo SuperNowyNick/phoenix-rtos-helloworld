@@ -47,6 +47,11 @@ b_build_target() {
 	ln -f $PREFIX_ROOTFS/bin/{psh,sync}
 	ln -f $PREFIX_ROOTFS/bin/{psh,reboot}
 	ln -f $PREFIX_ROOTFS/bin/{psh,top}
+	
+	b_log "Building hello app"
+	(cd phoenix-rtos-hello && make $MAKEFLAGS)
+	# Add hello app
+	install -m 755 "$TOPDIR/phoenix-rtos-hello/hello" "$PREFIX_ROOTFS/usr/sbin/hello" 
 
 	b_log "Creating CPIO archive"
 	pushd $PREFIX_PROG_STRIPPED
