@@ -12,9 +12,9 @@ set -e
 #TARGET=armv7m7-imxrt106x
 #TARGET=armv7m7-imxrt117x
 #TARGET=armv7a7-imx6ull
-#TARGET=ia32-generic
+TARGET=ia32-generic
 #TARGET=riscv64-spike
-TARGET=riscv64-virt
+#TARGET=riscv64-virt
 
 
 TARGET_FAMILY=`echo $TARGET | awk -F- '{ print $1 }'`
