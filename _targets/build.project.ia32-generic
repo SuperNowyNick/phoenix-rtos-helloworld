@@ -19,15 +19,15 @@ export DROPBEAR_CUSTOM_CFLAGS="-DLTC_NO_BSWAP"
 # Ports configuration
 #
 export PORTS_BUSYBOX=y
-export PORTS_PCRE=y
-export PORTS_OPENSSL=y
-export PORTS_LIGHTTPD=y
-export PORTS_DROPBEAR=y
+export PORTS_PCRE=n
+export PORTS_OPENSSL=n
+export PORTS_LIGHTTPD=n
+export PORTS_DROPBEAR=n
 export PORTS_LUA=n
-export PORTS_LZO=y
-export PORTS_OPENVPN=y
-export PORTS_JANSSON=y
-export PORTS_CURL=y
+export PORTS_LZO=n
+export PORTS_OPENVPN=n
+export PORTS_JANSSON=n
+export PORTS_CURL=n
 
 
 #
@@ -51,6 +51,7 @@ b_build_target() {
 	b_log "Building hello app"
 	(cd phoenix-rtos-hello && make $MAKEFLAGS)
 	# Add hello app
+	(cd $PREFIX_ROOTFS/usr && mkdir -p sbin)
 	install -m 755 "$TOPDIR/phoenix-rtos-hello/hello" "$PREFIX_ROOTFS/usr/sbin/hello" 
 
 	b_log "Creating CPIO archive"
@@ -103,10 +104,14 @@ b_image_target() {
 	offs=2048
 
 	# Adding ext2 rootfs
-	sz=`expr 128 \* 1024`
+	sz=`expr 8 \* 1024`
 	echo "Filesystem size: ${sz}KB"
 	genext2fs -b $sz -i 2048 -d $PREFIX_ROOTFS $ROOTFS
 	b_add2img $ROOTFS $IMG
+
+	# Set MBR partition 1 sectors to the right size
+	printf 'Writing sectors size 0x%x to partition 1\n' 16384
+	printf '\x00\x40\x00\x00' | dd of=$IMG bs=1 seek=458 count=4 conv=notrunc
 
 #	cp _build/phoenix-ia32-generic.elf $PREFIX_BOOT
 }
